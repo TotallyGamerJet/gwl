@@ -8,12 +8,12 @@ GWL is a crossplatform window and input api written in Go inspired by [glfw](htt
 3. Use CGO as little as possible
 
 ## Usage
-1. Get the package using `go get github.com/totallygamerjet/ggl`
+1. Get the package using `go get github.com/totallygamerjet/gwl`
 2. If on Mac OS install Xcode
-3. Import the package `import "github.com/totallygamerjet/ggl"`
+3. Import the package `import "github.com/totallygamerjet/gwl"`
 
 ## Example
-Examples can be found in the [examples](https://github.com/TotallyGamerJet/ggl/examples) folder.
+Examples can be found in the [examples](https://github.com/TotallyGamerJet/gwl/examples) folder.
 
 ## Contribute
 All contributions are welcome: bug reports, pull requests, documentation etc.
