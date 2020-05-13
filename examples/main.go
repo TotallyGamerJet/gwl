@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	runtime.LockOSThread()
+	runtime.LockOSThread()//necessary?
 	win, err := gwl.CreateWindow("My Evil Prog", 1080, 720, gwl.Decorated|gwl.Resizable)
 	if err != nil {
 		panic(err)
