@@ -13,7 +13,7 @@ GWL is a crossplatform window and input api written in Go inspired by [glfw](htt
 3. Import the package `import "github.com/totallygamerjet/gwl"`
 
 ## Example
-Examples can be found in the [examples](https://github.com/TotallyGamerJet/gwl/examples) folder.
+Examples can be found in the [examples](https://github.com/TotallyGamerJet/gwl/tree/master/examples) folder.
 
 ## Contribute
 All contributions are welcome: bug reports, pull requests, documentation etc.
