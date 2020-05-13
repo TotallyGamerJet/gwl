@@ -1,5 +1,8 @@
 GWL
 ======
+[![Go Documentation](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)][godocs]
+
+[godocs]: http://godoc.org/github.com/totallygamerjet/gwl
 GWL is a crossplatform window and input api written in Go inspired by [glfw](https://github.com/glfw/glfw).
 
 ## Goals
