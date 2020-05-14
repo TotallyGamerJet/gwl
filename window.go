@@ -41,19 +41,26 @@ func (g Window) ShouldClose() bool {
 	return getData(g).shouldClose
 }
 
+//MakeContextCurrent makes the opengl context current
+func (g Window) MakeContextCurrent() {
+	getData(g).MakeContextCurrent()
+}
+
+//SwapBuffers swaps the system buffers
+func (g Window) SwapBuffers() {
+	getData(g).SwapBuffers()
+}
+
+
 type windowData struct {
+	context
 	window      Window
 	shouldClose bool
-	context     context
 	callbacks   struct {
 		onMinimize    func(Window)
 		onMaximize    func(Window)
 		onFocusChange func(Window, bool)
 	}
-}
-
-type context interface {
-	swapBuffers()
 }
 
 //windowConfig holds all the information about how to create a window

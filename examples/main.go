@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	runtime.LockOSThread()//necessary?
+	runtime.LockOSThread()
 	win, err := gwl.CreateWindow("My Evil Prog", 1080, 720, gwl.Decorated|gwl.Resizable)
 	if err != nil {
 		panic(err)
@@ -24,6 +24,8 @@ func main() {
 			fmt.Println("Lost focus :(")
 		}
 	})
+
+	win.MakeContextCurrent()
 
 	if err := gl.Init(); err != nil {
 		fmt.Println("init failed: ", err)

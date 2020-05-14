@@ -17,22 +17,9 @@ func PollEvents() {
 	}
 }
 
-/*func (g Window) ShowWindow() {
-	w32.ShowWindow(w32.HWND(g), w32.SW_SHOW)
-}*/
-
-func (g Window) SwapBuffers() {
+/*func (g Window) SwapBuffers() {
 	w32.SwapBuffers(dc)
-}
-
-type win32Context struct {
-	dc w32.HDC
-	rc w32.HGLRC
-}
-
-func (w win32Context) swapBuffers() {
-	w32.SwapBuffers(w.dc)
-}
+}*/
 
 func createPlatformWindow(config windowConfig) (ggl Window, err error) {
 	style := getStyle(config)

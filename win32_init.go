@@ -3,6 +3,7 @@
 package gwl
 
 import (
+	"fmt"
 	"github.com/totallygamerjet/w32"
 	"golang.org/x/sys/windows"
 	"unsafe"
@@ -31,8 +32,8 @@ func registerWindowClass() {
 }
 
 //TODO: remove these
-var dc w32.HDC
-var rc w32.HGLRC
+//var dc w32.HDC
+//var rc w32.HGLRC
 
 func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 	window := getData(Window(hwnd))
@@ -59,27 +60,22 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 			0,                  // reserved
 			0, 0, 0,            // layer masks ignored
 		}
-		dc = w32.GetDC(hwnd)
+		dc := w32.GetDC(hwnd)
 
 		pf := w32.ChoosePixelFormat(dc, &pfd)
 		w32.SetPixelFormat(dc, pf, &pfd)
 
-		rc = w32.WglCreateContext(dc)
-		w32.WglMakeCurrent(dc, rc)
-		/*window.context = win32Context{dc: dc, rc: rc}
-		err = setData(window) //make sure window is updated
-		if err != nil {
-			fmt.Printf("failed to set window: %v\n", err)
-		}*/
+		rc := w32.WglCreateContext(dc)
+		setData(Window(hwnd), func(data *windowData){data.context=win32Context{dc: dc,rc: rc}})
 	case w32.WM_DESTROY:
-		/*context, ok := window.context.(win32Context)
+		context, ok := window.context.(win32Context)
 		if !ok {
 			fmt.Println("Platform err: wrong context")
-		}*/
+		}
 		Window(hwnd).SetShouldClose(true)
 		w32.WglMakeCurrent(0, 0) //make it not current anymore
-		w32.ReleaseDC(hwnd, dc)
-		w32.WglDeleteContext(rc)
+		w32.ReleaseDC(hwnd, context.dc)
+		w32.WglDeleteContext(context.rc)
 		w32.PostQuitMessage(0)
 	case w32.WM_SIZE:
 		iconified := wparam == w32.SIZE_MINIMIZED
