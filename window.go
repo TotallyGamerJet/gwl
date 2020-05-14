@@ -43,17 +43,16 @@ func (g Window) ShouldClose() bool {
 
 //MakeContextCurrent makes the opengl context current
 func (g Window) MakeContextCurrent() {
-	getData(g).MakeContextCurrent()
+	getData(g).context.MakeContextCurrent()
 }
 
 //SwapBuffers swaps the system buffers
 func (g Window) SwapBuffers() {
-	getData(g).SwapBuffers()
+	getData(g).context.SwapBuffers()
 }
 
-
 type windowData struct {
-	context
+	context     context
 	window      Window
 	shouldClose bool
 	callbacks   struct {
