@@ -1,4 +1,4 @@
-module gwl
+module "github.com/totallygamerjet/gwl"
 
 go 1.14
 
