@@ -3,7 +3,7 @@
 package gwl
 
 import(
-	cocoa "github.com/totallygamerjet/cocoa"
+	"github.com/totallygamerjet/cocoa"
 )
 
 func createPlatformWindow(config windowConfig) (ggl Window, err error) {
