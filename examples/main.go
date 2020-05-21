@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/go-gl/gl/v4.1-core/gl"
-	"gwl"
+	"github.com/totallygamerjet/gwl"
 	"log"
 	"runtime"
 )
