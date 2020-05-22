@@ -13,9 +13,9 @@ func (g Window) set(do func(*windowData)) {
 	}
 }
 
-// SetCallback is used to set all the callbacks. Multiple callbacks may be set in one call
+// SetCallbacks is used to set all the callbacks. Multiple callbacks may be set in one call
 // to SetCallback.
-func (g Window) SetCallback(do func(*Callbacks)) {
+func (g Window) SetCallbacks(do func(*Callbacks)) {
 	err := setData(g, func(data *windowData) {
 		do(&data.callbacks)
 	})

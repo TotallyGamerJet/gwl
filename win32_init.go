@@ -3,7 +3,6 @@
 package gwl
 
 import (
-	"fmt"
 	"github.com/totallygamerjet/w32"
 	"golang.org/x/sys/windows"
 	"unsafe"
@@ -37,24 +36,15 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 	case w32.WM_CREATE:
 		//https://samulinatri.com/blog/win32-opengl-context/
 		pfd := w32.PIXELFORMATDESCRIPTOR{
-			uint16(unsafe.Sizeof(w32.PIXELFORMATDESCRIPTOR{})), //  size of this pfd
-			1, // version number
-			w32.PFD_DRAW_TO_WINDOW | // support window
+			Size:    uint16(unsafe.Sizeof(w32.PIXELFORMATDESCRIPTOR{})), //  size of this pfd
+			Version: 1,                                                  // version number
+			DwFlags: w32.PFD_DRAW_TO_WINDOW | // support window
 				w32.PFD_SUPPORT_OPENGL | // support OpenGL
 				w32.PFD_DOUBLEBUFFER, // double buffered
-			w32.PFD_TYPE_RGBA, // RGBA type
-			24,                // 24-bit color depth
-			0, 0, 0, 0, 0, 0,  // color bits ignored
-			0,          // no alpha buffer
-			0,          // shift bit ignored
-			0,          // no accumulation buffer
-			0, 0, 0, 0, // accum bits ignored
-			32,                 // 32-bit z-buffer
-			0,                  // no stencil buffer
-			0,                  // no auxiliary buffer
-			w32.PFD_MAIN_PLANE, // main layer
-			0,                  // reserved
-			0, 0, 0,            // layer masks ignored
+			IPixelType: w32.PFD_TYPE_RGBA, // RGBA type
+			ColorBits:  24,
+			DepthBits:  32,
+			ILayerType: w32.PFD_MAIN_PLANE,
 		}
 		dc := w32.GetDC(hwnd)
 
@@ -62,17 +52,12 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		w32.SetPixelFormat(dc, pf, &pfd)
 
 		rc := w32.WglCreateContext(dc)
-		setData(Window(hwnd), func(data *windowData) { data.context = win32Context{dc: dc, rc: rc} })
+		Window(hwnd).set(func(data *windowData) { data.context = win32Context{dc: dc, rc: rc} })
 		return 0
 	case w32.WM_DESTROY:
-		context, ok := window.context.(win32Context)
-		if !ok {
-			fmt.Println("Platform err: wrong context")
-		}
+		context := window.context
 		Window(hwnd).SetShouldClose(true)
-		w32.WglMakeCurrent(0, 0) //make it not current anymore
-		w32.ReleaseDC(hwnd, context.dc)
-		w32.WglDeleteContext(context.rc)
+		context.DeleteContext(Window(hwnd))
 		w32.PostQuitMessage(0)
 		return 0
 	case w32.WM_SIZE:

@@ -14,7 +14,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	win.SetCallback(func(callbacks *gwl.Callbacks) {
+	win.SetCallbacks(func(callbacks *gwl.Callbacks) {
 		callbacks.OnMinimize = func(window gwl.Window) { fmt.Println("I was just minimized") }
 		callbacks.OnMaximize = func(window gwl.Window) { fmt.Println("I was just maximized") }
 		callbacks.OnFocusChange = func(window gwl.Window, focused bool) {

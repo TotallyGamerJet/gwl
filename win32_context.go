@@ -18,3 +18,9 @@ func (w win32Context) MakeContextCurrent() {
 func (w win32Context) SwapBuffers() {
 	w32.SwapBuffers(w.dc)
 }
+
+func (w win32Context) DeleteContext(win Window) {
+	w32.WglMakeCurrent(0, 0) //make it not current anymore
+	w32.ReleaseDC(w32.HWND(win), w.dc)
+	w32.WglDeleteContext(w.rc)
+}
