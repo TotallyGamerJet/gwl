@@ -13,26 +13,15 @@ func (g Window) set(do func(*windowData)) {
 	}
 }
 
-// SetOnMinimize sets the minimize callback. The callback is called whenever the window
-//is minimized
-func (g Window) SetOnMinimize(callback func(Window)) {
-	g.set(func(win *windowData) { win.callbacks.onMinimize = callback })
-}
-
-// SetOnMaximize sets maximize callback. The callback is called whenever the window
-//is maximized
-func (g Window) SetOnMaximize(callback func(Window)) {
-	g.set(func(win *windowData) { win.callbacks.onMaximize = callback })
-}
-
-// SetOnFocusChange sets the on focus change callback. The callback will be called whenever focus leaves
-//or is returned to the window.
-func (g Window) SetOnFocusChange(callback func(window Window, focused bool)) {
-	g.set(func(win *windowData) { win.callbacks.onFocusChange = callback })
-}
-
-func (g Window) SetOnMouseEnter(callback func(window Window, entered bool)) {
-	g.set(func(win *windowData) { win.callbacks.onMouseEnter = callback })
+// SetCallback is used to set all the callbacks. Multiple callbacks may be set in one call
+// to SetCallback.
+func (g Window) SetCallback(do func(*Callbacks)) {
+	err := setData(g, func(data *windowData) {
+		do(&data.callbacks)
+	})
+	if err != nil {
+		fmt.Printf("failed to set: %v\n", err)
+	}
 }
 
 //SetShouldClose takes a bool to set the window's shouldClose field to
@@ -55,16 +44,19 @@ func (g Window) SwapBuffers() {
 	getData(g).context.SwapBuffers()
 }
 
+//Callbacks holds the struct of functions to be called
+type Callbacks struct {
+	OnMinimize    func(Window)
+	OnMaximize    func(Window)
+	OnFocusChange func(Window, bool)
+	OnMouseEnter  func(Window, bool)
+}
+
 type windowData struct {
 	context     context
 	window      Window
 	shouldClose bool
-	callbacks   struct {
-		onMinimize    func(Window)
-		onMaximize    func(Window)
-		onFocusChange func(Window, bool)
-		onMouseEnter  func(Window, bool)
-	}
+	callbacks   Callbacks
 }
 
 //windowConfig holds all the information about how to create a window
@@ -79,8 +71,8 @@ type windowConfig struct {
 
 type windowFlag uint32
 
+const None windowFlag = 0 //separate so that iota starts at 0
 const (
-	None      windowFlag = 0
 	Resizable windowFlag = 1 << iota
 	Maximized
 	Decorated

@@ -14,18 +14,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	win.SetOnMinimize(func(window gwl.Window) { fmt.Println("I was just minimized") })
-	win.SetOnMaximize(func(window gwl.Window) { fmt.Println("I was just maximized") })
-	win.SetOnFocusChange(func(window gwl.Window, focused bool) {
-		if focused {
-			fmt.Println("Gained focus!")
-		} else {
-			fmt.Println("Lost focus :(")
+	win.SetCallback(func(callbacks *gwl.Callbacks) {
+		callbacks.OnMinimize = func(window gwl.Window) { fmt.Println("I was just minimized") }
+		callbacks.OnMaximize = func(window gwl.Window) { fmt.Println("I was just maximized") }
+		callbacks.OnFocusChange = func(window gwl.Window, focused bool) {
+			if focused {
+				fmt.Println("Gained focus!")
+			} else {
+				fmt.Println("Lost focus :(")
+			}
 		}
-	})
-	win.SetOnMouseEnter(func(window gwl.Window, entered bool) {
-		fmt.Println("left: ", entered)
 	})
 
 	win.MakeContextCurrent()

@@ -77,17 +77,17 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		return 0
 	case w32.WM_SIZE:
 		iconified := wparam == w32.SIZE_MINIMIZED
-		if iconified && window.callbacks.onMinimize != nil {
-			window.callbacks.onMinimize(Window(hwnd))
+		if iconified && window.callbacks.OnMinimize != nil {
+			window.callbacks.OnMinimize(Window(hwnd))
 		}
 		maximized := wparam == w32.SIZE_MAXIMIZED
-		if maximized && window.callbacks.onMaximize != nil {
-			window.callbacks.onMaximize(Window(hwnd))
+		if maximized && window.callbacks.OnMaximize != nil {
+			window.callbacks.OnMaximize(Window(hwnd))
 		}
 		return 0
 	case w32.WM_SETFOCUS:
-		if window.callbacks.onFocusChange != nil {
-			window.callbacks.onFocusChange(Window(hwnd), true)
+		if window.callbacks.OnFocusChange != nil {
+			window.callbacks.OnFocusChange(Window(hwnd), true)
 		}
 		//if (window->cursorMode == GLFW_CURSOR_DISABLED)
 		//	disableCursor(window);
@@ -98,13 +98,13 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		//
 		//if (window->monitor && window->autoIconify)
 		//     _glfwPlatformIconifyWindow(window);
-		if window.callbacks.onFocusChange != nil {
-			window.callbacks.onFocusChange(Window(hwnd), false)
+		if window.callbacks.OnFocusChange != nil {
+			window.callbacks.OnFocusChange(Window(hwnd), false)
 		}
 		return 0
 	case w32.WM_MOUSELEAVE:
-		if window.callbacks.onMouseEnter != nil {
-			window.callbacks.onMouseEnter(Window(hwnd), false)
+		if window.callbacks.OnMouseEnter != nil {
+			window.callbacks.OnMouseEnter(Window(hwnd), false)
 		}
 		return 0
 	}
