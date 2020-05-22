@@ -31,6 +31,10 @@ func (g Window) SetOnFocusChange(callback func(window Window, focused bool)) {
 	g.set(func(win *windowData) { win.callbacks.onFocusChange = callback })
 }
 
+func (g Window) SetOnMouseEnter(callback func(window Window, entered bool)) {
+	g.set(func(win *windowData) { win.callbacks.onMouseEnter = callback })
+}
+
 //SetShouldClose takes a bool to set the window's shouldClose field to
 func (g Window) SetShouldClose(close bool) {
 	g.set(func(win *windowData) { win.shouldClose = close })
@@ -59,6 +63,7 @@ type windowData struct {
 		onMinimize    func(Window)
 		onMaximize    func(Window)
 		onFocusChange func(Window, bool)
+		onMouseEnter  func(Window, bool)
 	}
 }
 

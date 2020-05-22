@@ -24,6 +24,9 @@ func main() {
 			fmt.Println("Lost focus :(")
 		}
 	})
+	win.SetOnMouseEnter(func(window gwl.Window, entered bool) {
+		fmt.Println("left: ", entered)
+	})
 
 	win.MakeContextCurrent()
 

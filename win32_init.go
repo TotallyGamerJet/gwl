@@ -31,10 +31,6 @@ func registerWindowClass() {
 
 }
 
-//TODO: remove these
-//var dc w32.HDC
-//var rc w32.HGLRC
-
 func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 	window := getData(Window(hwnd))
 	switch msg {
@@ -66,7 +62,8 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		w32.SetPixelFormat(dc, pf, &pfd)
 
 		rc := w32.WglCreateContext(dc)
-		setData(Window(hwnd), func(data *windowData){data.context=win32Context{dc: dc,rc: rc}})
+		setData(Window(hwnd), func(data *windowData) { data.context = win32Context{dc: dc, rc: rc} })
+		return 0
 	case w32.WM_DESTROY:
 		context, ok := window.context.(win32Context)
 		if !ok {
@@ -77,6 +74,7 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		w32.ReleaseDC(hwnd, context.dc)
 		w32.WglDeleteContext(context.rc)
 		w32.PostQuitMessage(0)
+		return 0
 	case w32.WM_SIZE:
 		iconified := wparam == w32.SIZE_MINIMIZED
 		if iconified && window.callbacks.onMinimize != nil {
@@ -86,12 +84,14 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		if maximized && window.callbacks.onMaximize != nil {
 			window.callbacks.onMaximize(Window(hwnd))
 		}
+		return 0
 	case w32.WM_SETFOCUS:
 		if window.callbacks.onFocusChange != nil {
 			window.callbacks.onFocusChange(Window(hwnd), true)
 		}
 		//if (window->cursorMode == GLFW_CURSOR_DISABLED)
 		//	disableCursor(window);
+		return 0
 	case w32.WM_KILLFOCUS:
 		//if (window->cursorMode == GLFW_CURSOR_DISABLED)
 		//     enableCursor(window);
@@ -101,6 +101,12 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		if window.callbacks.onFocusChange != nil {
 			window.callbacks.onFocusChange(Window(hwnd), false)
 		}
+		return 0
+	case w32.WM_MOUSELEAVE:
+		if window.callbacks.onMouseEnter != nil {
+			window.callbacks.onMouseEnter(Window(hwnd), false)
+		}
+		return 0
 	}
 
 	/*err = setData(window) //make sure window is updated
