@@ -44,12 +44,16 @@ func (g Window) SwapBuffers() {
 	getData(g).context.SwapBuffers()
 }
 
-//Callbacks holds the struct of functions to be called
+//Callbacks holds the struct of functions to that will be called on a callback
 type Callbacks struct {
-	OnMinimize    func(Window)
-	OnMaximize    func(Window)
+	//OnMinimize will be called when the window is minimized
+	OnMinimize func(Window)
+	//OnMaximize will be called when the window is maximized
+	OnMaximize func(Window)
+	//OnFocusChange will be called when the window gains or loses focus
 	OnFocusChange func(Window, bool)
-	OnMouseEnter  func(Window, bool)
+	//OnMouseEnter will be called when the mouse leaves and enters the window
+	OnMouseEnter func(Window, bool)
 }
 
 type windowData struct {
