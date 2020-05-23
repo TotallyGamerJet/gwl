@@ -10,7 +10,7 @@ GWL is a crossplatform window and input api written in pure Go inspired by [glfw
 2. Provide an idiomatic Go experience
 3. No CGO
 
-##Note
+## Note
 This project is a WIP and only currently builds for windows. MacOS support will come once [NOCGO](https://github.com/notti/nocgo) 
 gets added to the Go runtime. To further along the MacOS version of GWL please support the initiative. 
 The Linux version will use [XGB](https://github.com/BurntSushi/xgb) but I do not have a system to develop on.
