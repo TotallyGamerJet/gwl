@@ -24,6 +24,12 @@ func main() {
 				fmt.Println("Lost focus :(")
 			}
 		}
+		callbacks.OnWindowResize = func(window gwl.Window, width, height int32) {
+			gl.Viewport(0, 0, width, height)
+			gl.ClearColor(1, 0, 0, 1.0)
+			gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+			win.SwapBuffers()
+		}
 	})
 
 	win.MakeContextCurrent()

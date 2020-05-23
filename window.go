@@ -56,6 +56,8 @@ type Callbacks struct {
 	OnMouseEnter func(Window, bool)
 	//OnWindowClose can be used to stop the window from closing
 	OnWindowClose func(Window)
+	//OnWindowResize can be used to redraw the window when size changes
+	OnWindowResize func(Window, int32, int32)
 }
 
 type windowData struct {

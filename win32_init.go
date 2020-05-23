@@ -69,6 +69,11 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 		if maximized && window.callbacks.OnMaximize != nil {
 			window.callbacks.OnMaximize(Window(hwnd))
 		}
+		width := int32(w32.LOWORD(uint32(lparam)))
+		height := int32(w32.HIWORD(uint32(lparam)))
+		if window.callbacks.OnWindowResize != nil {
+			window.callbacks.OnWindowResize(Window(hwnd), width, height)
+		}
 		return 0
 	case w32.WM_SETFOCUS:
 		if window.callbacks.OnFocusChange != nil {
