@@ -54,6 +54,8 @@ type Callbacks struct {
 	OnFocusChange func(Window, bool)
 	//OnMouseEnter will be called when the mouse leaves and enters the window
 	OnMouseEnter func(Window, bool)
+	//OnWindowClose can be used to stop the window from closing
+	OnWindowClose func(Window)
 }
 
 type windowData struct {

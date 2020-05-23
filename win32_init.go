@@ -92,6 +92,12 @@ func wndProc(hwnd w32.HWND, msg uint32, wparam, lparam uintptr) uintptr {
 			window.callbacks.OnMouseEnter(Window(hwnd), false)
 		}
 		return 0
+	case w32.WM_CLOSE:
+		Window(hwnd).SetShouldClose(true)
+		if window.callbacks.OnWindowClose != nil {
+			window.callbacks.OnWindowClose(Window(hwnd))
+		}
+		return 0
 	}
 
 	/*err = setData(window) //make sure window is updated
